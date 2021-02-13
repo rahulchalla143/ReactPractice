@@ -6,6 +6,7 @@ import CompanyDetailsComponent from './Components/CompanyDetailsComponent'
 import CompaniesListComponent from './Components/CompaniesListComponent'
 import LoginComponent from './Components/LoginComponent';
 import WatchListComponent from './Components/WatchListComponent'
+import PerformanceComponent from './Components/PerformanceComponent';
 
 function App() {
   return (
@@ -17,7 +18,7 @@ function App() {
           <Route path="/login" component={LoginComponent} exact={true}/>
           <Route path="/companies" component={CompaniesListComponent}/>
           <Route path="/watchlist" component={WatchListComponent}/>
-          <Route path="/compareperformance" component={WatchListComponent}/>
+          <Route path="/compareperformance" component={PerformanceComponent}/>
         </Switch>
       </div>
     </BrowserRouter>
