@@ -1,69 +1,58 @@
-import React,{Component} from 'react';
-import {Row,Container,Col, FormLabel, Table} from 'react-bootstrap';
+import React from 'react';
+import axios from 'axios';
+
+export default class PerformanceComponent extends React.Component{
+    constructor(props){
+        super(props);
+        this.state={
+            companyData:[]
+            // isLoggedIn:true
+        };
+        console.log("inside");
+    }
+    
+    componentWillMount(){
+        let url='http://localhost:8080/stocks/compare-performance?companyCode1='+this.props.companyCode1+'&companyCode2='+this.props.companyCode2+'&from='+this.props.from+'&to='+this.props.to
+        console.log(url);
+        axios.get(url)
+    .then(res=>{
+        console.log(res.data);
+        const companydata=res.data;
+        this.setState({companyData:companydata});
+    })
+}
 
 
-function PerformanceComponent(props){
+render(){
     return(
-        <Container>
-            <Row>
-                <Col lg={3}></Col>
-                <Col lg={6}>
-                    <h2>Compare Potential Companies</h2>
-                    <h2 className="text-muted">Make Smart Investment Decision</h2>
-                    <Row className="d-flex p-3">
-                        <FormLabel>
-                            Select Company 1
-                            <br/>
-                            <input type="text"/>
-                        </FormLabel>
-                        <FormLabel className="ml-auto">
-                            Select Company 2
-                            <br/>
-                            <input type="text"/>
-                        </FormLabel>
-                    </Row>
-                    <Row className="d-flex p-3">
-                        <FormLabel>
-                            From Date
-                            <br/>
-                            <input type="text"/>
-                        </FormLabel>
-                        <FormLabel className="ml-auto">
-                            To Date
-                            <br/>
-                            <input type="text"/>
-                        </FormLabel>
-                    </Row>
-                    <button className="btn-primary">Fetch Details</button>
-                    
-                    <Table className="mt-3">
-                        <tr>
-                        <th>Date</th>
-                        <th>Company</th>
-                        <th>Stock Price</th>
-                        </tr>
-                        <tr>
-                        <td>Date</td>
-                        <td>Company</td>
-                        <td>Stock Price</td>
-                        </tr>
-                        <tr>
-                        <td>Date</td>
-                        <td>Company</td>
-                        <td>Stock Price</td>
-                        </tr>
-                        <tr>
-                        <td>Date</td>
-                        <td>Company</td>
-                        <td>Stock Price</td>
-                        </tr>
-                    </Table>
-                </Col>
-
-                <Col lg={3}></Col>
-            </Row>
-        </Container>
+        <div>
+            <table className="table">
+            <thead>
+                <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Company</th>
+                    <th scope="col">Stock Price </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {this.state.companyData.map(company=><RowCreator item={company} companyCode1={this.props.companyCode1}/>)}
+                    </tbody>
+                    </table>
+            </div>
     )
-} 
+}
+}
 
-export default PerformanceComponent
+class RowCreator extends React.Component{
+    render(){
+        var companylist=this.props.item;
+        return(
+            <tr>
+                <td>{this.props.companyCode1==companylist.company.companyId?companylist.date:""}</td>
+                <td>{companylist.company.companyName}</td>
+                <td>${companylist.stockPrice}</td>
+                </tr>
+        )
+
+    }
+}

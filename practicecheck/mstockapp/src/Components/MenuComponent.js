@@ -1,18 +1,28 @@
-import React,{Component} from 'react';
+import React,{useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import * as RB from "react-bootstrap";
+import {Link} from "react-router-dom";
 
 function MenuComponent(props){
-
-    if(props.loggedIn){
+    
+    if(!(props.userId == 0)){
         return(
             <RB.Navbar bg="dark" variant="dark">
                 
                 <RB.Navbar.Brand href="/">mStock App</RB.Navbar.Brand>
-                <RB.Nav.Link href="/companies">Companies</RB.Nav.Link>
-                <RB.Nav.Link href="/watchlist">Watch List</RB.Nav.Link>
-                <RB.Nav.Link href="/compareperformance">Compare Performance</RB.Nav.Link>
-                <RB.Nav.Link href="/login">Logout</RB.Nav.Link>
+                <Link className="text-white p-3" to={{
+                    pathname:'/companies',
+                    state: {userId:props.userId}  
+                    }}>Companies</Link>
+                <Link className="text-white p-3" to={{
+                    pathname:'/watchlist',
+                    state: {userId:props.userId}  
+                    }}>Watch List</Link>
+                <Link className="text-white p-3" to={{
+                    pathname:'/compareperformance',
+                    state: {userId:props.userId}  
+                    }}>Compare Performance</Link>
+                <RB.Nav.Link className="text-white" href="/login">Logout</RB.Nav.Link>
             </RB.Navbar>
         )
     }
@@ -21,8 +31,11 @@ function MenuComponent(props){
             <RB.Navbar bg="dark" variant="dark">
                 
                 <RB.Navbar.Brand href="/">mStock App</RB.Navbar.Brand>
-                <RB.Nav.Link href="/login">Login</RB.Nav.Link>
-                <RB.Nav.Link href="/companies">Companies</RB.Nav.Link>
+                <RB.Nav.Link className="text-white" href="/login">Login</RB.Nav.Link>
+                <Link className="text-white p-3" to={{
+                    pathname:'/companies',
+                    state: {userId:0}  
+                    }}>Companies</Link>
             </RB.Navbar>
         )
     }
